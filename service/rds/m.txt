@@ -1,0 +1,45 @@
+package rds
+
+import (
+"jdcloud-cli/cli"
+"jdcloud-cli/i18n"
+"github.com/jdcloud-api/jdcloud-sdk-go/services/rds/apis"
+"encoding/json"
+"fmt"
+)
+
+func NewDescribe() *cli.Command {
+	describeAccounts := &cli.Command{
+		Name: "",
+		Short: i18n.T("", ""),
+		Usage: "",
+		Run: func(ctx *cli.Context, args []string) error {
+
+			return nil
+		},
+	}
+
+	return describeAccounts
+}
+
+func doDescribe(ctx *cli.Context) {
+
+	profile := GetProfile(ctx)
+	rdsClient := GetRdsClient(ctx)
+
+	regionIdFlag.Required = true
+	regionIdFlag.DefaultValue = profile.RegionId
+	regionId, _ := regionIdFlag.GetValue()
+	//inputJson, _ := inputJsonFlag.GetValue()
+	//headers, _ := headersFlag.GetValue()
+
+
+	req := apis.()
+
+	resp, err := rdsClient.(req)
+	if err != nil {
+		return
+	}
+	resultJsonByte, _ := json.MarshalIndent(resp, "", "    ")
+	fmt.Println(string(resultJsonByte))
+}
